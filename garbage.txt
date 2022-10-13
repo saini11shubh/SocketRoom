@@ -1,0 +1,43 @@
+ // socket.on("incoming message",(msg)=>{
+        //     var li=document.createElement("li");
+        //     li.textContent=msg;
+        //     message.appendChild(li);  
+        // })
+
+        
+    //    socket.on("incoming message", (msg) => {
+    //          messageArea=document.querySelector('message_area')
+    //             let mainDiv = document.createElement('div')
+    //            // let className = type;
+    //            // mainDiv.classList.add(className, 'message')     //add class dynamically
+    //             let markup = `
+    //                  <h4>Rakesh</h4>
+    //                 <p>${msg}</p>
+    //               `
+    //             mainDiv.innerHTML = markup
+    //             messageArea.appendChild(mainDiv)
+           
+    //     })
+
+
+// io.on("connection", (socket) => {
+//     socket.on("join", () => {
+//         socket.join("room1")
+//         console.log("Room event triggered")
+//         io.to("room1").emit("joinedroom", socket.id)
+//     })
+// })
+
+    // socket.on("new message", (message) => {
+    //     console.log("new client id ", message.client_id);
+    //     console.log("new message on the server ", message.client_msg);
+    //    // io.emit("chat message", message);       
+    // });
+    // socket.on("join", () => {
+    //     socket.join("room1")
+    //     console.log("client1 event triggered")
+    //     io.to("room1").emit("joinedroom", socket.id)
+    // });
+// socket.on("joinedroom", (client_id) => {
+        //     console.log("client2 event triggered", client_id)
+        // })

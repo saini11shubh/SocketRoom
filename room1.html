@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room1</title>
+</head>
+
+<body>
+
+    <form id="form">
+
+        <h2 id="room"></h2>
+        <textarea id="input" cols="30" rows="5" placeholder="write message here"></textarea>
+        <button>send</button><br>
+        <a href="/room2">Go to Room2</a><br />
+        <!-- <button onclick="history.back()">Go Back</button> -->
+        <ul id="message"></ul>
+    </form>
+
+    <!-- this library load from node server -->
+    <script src="socket.io/socket.io.js"></script>
+    <script>
+        var socket = io('/admin');
+        var form = document.getElementById("form");
+        var input = document.getElementById("input");
+        var message = document.getElementById("message");
+        const room = 'Room1';
+
+        let name;
+        do {
+            name = prompt('Please enter your name ')
+        } while (!name);
+
+        //take message from client 
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (input.value) {
+                input.value.trim();
+                let message = {
+                    client_name: name,
+                    client_msg: input.value,
+                };
+                input.value = "";
+                //send message on server 
+                socket.emit("new message", message);
+
+            }
+        });
+
+        //print all old  message on text area from mongodb
+        socket.on("old message", (result) => {
+            if (result.length) {
+                for (let i = 0; i < result.length; i++) {
+                    var li = document.createElement("li");
+                    let markup = `${result[i].client_name}- ${result[i].message} `
+                    li.textContent = markup;
+                    message.append(li);
+                }
+            }
+        });
+        //Print message in text area 
+        socket.on("chat message", (msg) => {
+            var li = document.createElement("li");
+            let markup = `${msg.client_name}- ${msg.client_msg} `
+
+            li.textContent = markup;
+            message.append(li);
+            window.scrollTo(0, document.body.scrollHeight);
+        })
+
+
+        //join in room 
+        socket.on('connect', () => {       //when client is connect then join room
+            document.getElementById('room').innerText = room;
+            socket.emit('join', { room });
+        })
+
+
+    </script>
+</body>
+
+</html>
